@@ -13,8 +13,7 @@ router.get('*', function(req, res, next){
 
 router.get('/', function(req, res){
 	userModel.getByUname(req.cookies['username'], function(result){
-		//res.render('home/index', {user: result});
-		res.render('adminHome/index');
+		res.render('adminHome/index', {user : result});
 	});
 });
 
@@ -22,23 +21,31 @@ router.get('/view_users', function(req, res){
 	
 		userModel.getAll(function(results){
 			if(results.length > 0){
-				res.render('home/view_users', {userlist: results});
+				res.render('adminHome/view_users', {userlist: results});
 			}else{
 				res.redirect('/home');
 			}
 		});
 
-		// var refresh = req.body.refresh;
-		// if(refresh){
-		// 	res.render('/home');
-		// }
+});
+
+//All Posts
+
+router.get('/all_posts', function(req, res){
+	userModel.getAllPost(function(results){
+		if(results.length > 0){
+			res.render('adminHome/all_posts', {userlist: results});
+		}else{
+			res.redirect('/home');
+		}
+	});
 });
 
 router.post('/view_users', function(req, res){
 	var id = req.body.id;
 	userModel.getByID(id, function(results){
 		if(results.length > 0){
-			res.render('home/view_users', {userlist : results});
+			res.render('adminHome/view_users', {userlist : results});
 		}
 		else{
 			res.send('No Recoed Found !!');
@@ -48,7 +55,7 @@ router.post('/view_users', function(req, res){
 
 router.get('/edit/:id', function(req, res){
 	userModel.getById(req.params.id, function(result){
-		res.render('home/edit', {user: result});
+		res.render('adminHome/edit', {user: result});
 	});
 });
 
@@ -56,6 +63,9 @@ router.post('/edit/:id', function(req, res){
 	
 		var user = {
 			id: req.params.id,
+			name : req.body.name,
+			email : req.body.email,
+			phone : req.body.phone,
 			username: req.body.username,
 			password: req.body.password,
 			type: req.body.type
@@ -70,9 +80,17 @@ router.post('/edit/:id', function(req, res){
 		});
 });
 
+//Edit Post
+router.get('/editPost/:id', function(req, res){
+	userModel.postById(req.params.id, function(result){
+		res.render('adminHome/editPost', {user: result});
+	});
+});
+
+
 router.get('/delete/:id', function(req, res){
 	userModel.getById(req.params.id, function(result){
-		res.render('home/delete', {user: result});
+		res.render('adminHome/delete', {user: result});
 	});
 });
 
