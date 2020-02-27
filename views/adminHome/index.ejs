@@ -7,7 +7,23 @@
 </head>
 <body>
     <center>
-        <h1>Admin Home</h1>
+        <h1>Admin Home [<%= user.username%>]</h1>
     </center>
+
+    <br><br>
+
+    <a href="#">Add Admin</a> |
+    <a href="#">My Profile</a> | 
+    <a href="/home/view_users">All UserList</a> | 
+    <a href="#">Logout</a> | <br><br>
+    <hr>
+    
+    Name : <%= user.name%> <br>
+    Email : <%= user.email%> <br>
+    Phone : <%= user.phone%> <br>
+    Username:  <%= user.username %> <br>
+	Id: <%= user.id %> <br>
+	Password: <%= user.password %> <br>
+	Type: <%= user.type %>
 </body>
 </html>
