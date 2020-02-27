@@ -12,6 +12,19 @@ module.exports= {
 	// 	});
 	// },
 
+	//Post Get By id
+
+	postById : function(id, callback){
+		var sql = "select * from post where id=?";
+		db.getResults(sql, [id], function(results){
+			if(results.length > 0){
+				callback(results[0]);
+			}else{
+				callback(null);
+			}
+		});
+	},
+
 	getById : function(id, callback){
 		var sql = "select * from user where id=?";
 		db.getResults(sql, [id], function(results){
@@ -61,7 +74,7 @@ module.exports= {
 		db.getResults(sql, [user.username, user.password], function(results){
 
 			if(results.length > 0){
-				callback({userlist: results});
+				callback(results[0]);
 			}else{
 				callback(null);
 			}
@@ -78,8 +91,8 @@ module.exports= {
 		});
 	},
 	insert: function(user, callback){
-		var sql = "insert into user values(?,?,?,?)";
-		db.execute(sql, [null, user.username, user.password, user.type], function(status){
+		var sql = "insert into user values(?,?,?,?,?,?,?)";
+		db.execute(sql, [null, user.name, user.email, user.phone,  user.username, user.password, user.type], function(status){
 			if(status){
 				callback(true);
 			}else{
@@ -87,12 +100,44 @@ module.exports= {
 			}
 		});
 	},
-	update : function(user, callback){
-		var sql = "update user set username=?, password=?, type=? where id=?";
-		db.execute(sql, [user.username, user.password, user.type, user.id], function(status){
+
+	//Insert Post
+
+	insertPost: function(data, callback){
+		var sql = "insert into post values(?,?,?,?,?,?)";
+		db.execute(sql, [null, data.placename, data.costing, data.medium, data.description,'pending'], function(status){
 			if(status){
 				callback(true);
 			}else{
+				callback(false);
+			}
+		});
+	},
+
+	getAllPost : function(callback){
+		var sql = "select * from post";
+		db.getResults(sql, null, function(results){
+			if(results.length > 0){
+				callback(results);
+			}
+			else{
+				callback([]);
+			}
+		});
+	},
+	updatePost: function(data, callback){
+		var sql = "";
+	},
+
+	update : function(user, callback){
+		//console.log(user);
+		var sql = "update user set name=?, email=?, phone=?, username=?, password=?, type=? where id=?";
+		db.execute(sql, [user.name, user.email, user.phone, user.username, user.password, user.type, user.id], function(status){
+			if(status){
+				console.log(status);
+				callback(true);
+			}else{
+				console.log(status);
 				callback(false);
 			}
 		});
