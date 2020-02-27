@@ -14,23 +14,24 @@ router.post('/', function(req, res){
 	};
 
 	userModel.validate(user, function(status){
-	 	if(status){
+
+		if(status.type  == "admin"){
 			res.cookie('username', req.body.uname);
 			res.redirect('/home');
-		}else{
-			res.send('invalid username/password');
+		}
+		else if(status.type == "scout"){
+			res.cookie('username', req.body.uname);
+			res.redirect('/scoutHome');
 		}
 
-		// if(userlist.type  == "admin"){
-		// 	res.cookie('username', req.body.uname);
-		// 	res.redirect('/home');
-		// }
-		// else if(userlist.type == "manager"){
-		// 	res.send('This is Manager Page request');
-		// }
-		// else{
-		// 	res.send('Invalid Username or Password');
-		// }
+		else if(status.type == "general"){
+			res.cookie('username', req.body.uname);
+			res.redirect('/generalHome');
+		}
+
+		else{
+			res.send('Invalid Username or Password');
+		}
 
 	});
 });

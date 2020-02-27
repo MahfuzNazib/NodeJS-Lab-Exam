@@ -13,7 +13,8 @@ router.get('*', function(req, res, next){
 
 router.get('/', function(req, res){
 	userModel.getByUname(req.cookies['username'], function(result){
-		res.render('home/index', {user: result});
+		//res.render('home/index', {user: result});
+		res.render('adminHome/index');
 	});
 });
 
