@@ -83,7 +83,27 @@ router.post('/edit/:id', function(req, res){
 //Edit Post
 router.get('/editPost/:id', function(req, res){
 	userModel.postById(req.params.id, function(result){
-		res.render('adminHome/editPost', {user: result});
+		res.render('adminHome/editPost', {data: result});
+	});
+});
+
+router.post('/editPost/:id', function(req, res){
+	
+	var data = {
+		id: req.params.id,
+		placename : req.body.placename,
+		costing : req.body.costing,
+		medium : req.body.medium,
+		description : req.body.description,
+		status : req.body.status
+	};
+
+	userModel.updatePost(data, function(status){
+		if(status){
+			res.redirect('/home/all_posts');
+		}else{
+			res.redirect('/home/editPost/'+req.params.id);
+		}
 	});
 });
 

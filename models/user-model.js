@@ -126,7 +126,15 @@ module.exports= {
 		});
 	},
 	updatePost: function(data, callback){
-		var sql = "";
+		var sql = "update post set placename=?, costing=?, medium=?, description=?, status=? where id=?";
+		db.execute(sql, [data.placename, data.costing, data.medium, data.description, data.status , data.id], function(status){
+			if(status){
+				callback(true);
+			}
+			else{
+				callback(false);
+			}
+		});
 	},
 
 	update : function(user, callback){
